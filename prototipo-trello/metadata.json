@@ -1,0 +1,6 @@
+{
+  "name": "Prototipo Trello",
+  "description": "Un prototipo educativo estilo Trello desarrollado con Node.js backend (Express) y frontend de JavaScript Vanilla, estructurado con patrón MVC y persistencia en memoria.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
