@@ -24,6 +24,8 @@ const kanbanContainer = document.getElementById("kanban-board-container");
 const logoutBtn = document.getElementById("logout-btn");
 const addListBtn = document.getElementById("add-list-btn");
 const loggedUserName = document.getElementById("logged-user-name");
+const themeToggleLogin = document.getElementById("theme-toggle-login");
+const themeToggleDashboard = document.getElementById("theme-toggle-dashboard");
 
 // -----------------------------------------------------------------
 // 2. CONTROL SESIÓN: FORMULARIO DE INGRESO (LOGIN POST)
@@ -525,3 +527,49 @@ async function sincronizarTableroBackend() {
     console.error("Fallo al guardar posición tras el movimiento:", error);
   }
 }
+
+// -----------------------------------------------------------------
+// 6. GESTIÓN DE TEMA (CLARO / OSCURO) RESPONDEN A BOTONES DE TEMA
+// -----------------------------------------------------------------
+function aplicarTema(tema) {
+  const sunIcons = document.querySelectorAll(".theme-icon-sun");
+  const moonIcons = document.querySelectorAll(".theme-icon-moon");
+  const loginBtnText = document.getElementById("theme-text-login");
+
+  if (tema === "light") {
+    document.body.classList.add("light-mode");
+    
+    // Mostrar sol y ocultar luna
+    sunIcons.forEach(function(icon) { icon.classList.remove("hidden"); });
+    moonIcons.forEach(function(icon) { icon.classList.add("hidden"); });
+    if (loginBtnText) loginBtnText.textContent = "Modo Oscuro";
+  } else {
+    document.body.classList.remove("light-mode");
+    
+    // Mostrar luna y ocultar sol
+    sunIcons.forEach(function(icon) { icon.classList.add("hidden"); });
+    moonIcons.forEach(function(icon) { icon.classList.remove("hidden"); });
+    if (loginBtnText) loginBtnText.textContent = "Modo Claro";
+  }
+}
+
+function inicializarTema() {
+  const temaGuardado = localStorage.getItem("theme") || "dark";
+  aplicarTema(temaGuardado);
+
+  const toggleTheme = function() {
+    const nuevoTema = document.body.classList.contains("light-mode") ? "dark" : "light";
+    localStorage.setItem("theme", nuevoTema);
+    aplicarTema(nuevoTema);
+  };
+
+  if (themeToggleLogin) {
+    themeToggleLogin.addEventListener("click", toggleTheme);
+  }
+  if (themeToggleDashboard) {
+    themeToggleDashboard.addEventListener("click", toggleTheme);
+  }
+}
+
+// Inicializamos el tema de manera inmediata para evitar destellos
+inicializarTema();
